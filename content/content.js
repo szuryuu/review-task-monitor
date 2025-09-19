@@ -1,12 +1,12 @@
 function getDOM() {
-  const theadData = document.querySelectorAll("thead");
-  const tbodyData = document.querySelectorAll("tbody");
+  const theadData = document.querySelector("thead");
+  const tbodyData = document.querySelector("tbody");
 
   chrome.runtime.sendMessage({
     type: "DOM_DATA",
     payload: {
-      thead: theadData ? theadData : [],
-      tbody: tbodyData ? tbodyData : [],
+      thead: theadData ? theadData.innerHTML : null,
+      tbody: tbodyData ? tbodyData.innerHTML : null,
     },
   });
 }

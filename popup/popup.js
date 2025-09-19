@@ -2,7 +2,7 @@ const myTableHeader = document.getElementById("myTableHeader");
 const myTableBody = document.getElementById("myTableBody");
 
 function notification() {
-  const audio = new Audio("notification.mp3");
+  const audio = new Audio("../assets/sound/alert1.mp3");
   audio.play();
 }
 
@@ -15,12 +15,13 @@ document.addEventListener("DOMContentLoaded", () => {
 // Listener
 chrome.runtime.onMessage.addListener((msg, sender) => {
   if (msg.type === "DOM_UPDATE") {
-    myTableHeader.innerHTML = msg.payload.thead
-      ? msg.payload.thead.innerHTML
-      : "404 Not Found";
-    myTableBody.innerHTML = msg.payload.tbody
-      ? msg.payload.tbody.innerHTML
-      : "404 Not Found";
-    notification();
+    myTableHeader.innerHTML =
+      msg.payload.thead || "<thead><tr><th>404 Not Found</th></tr></thead>";
+    myTableBody.innerHTML =
+      msg.payload.tbody || "<tbody><tr><td>404 Not Found</td></tr></tbody>";
+
+    if (msg.payload.tbody) {
+      notification();
+    }
   }
 });
