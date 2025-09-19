@@ -1,3 +1,5 @@
+console.log("content.js loaded");
+
 function getDOM() {
   const theadData = document.querySelector("thead");
   const tbodyData = document.querySelector("tbody");

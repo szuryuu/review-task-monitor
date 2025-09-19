@@ -24,10 +24,10 @@
     "alarms",
     "scripting"
   ],
-  "host_permissions": ["https://*.example.com/*", "https://dicoding.com/*"],
+  "host_permissions": ["https://dicoding.com/*"],
   "content_scripts": [
     {
-      "matches": ["https://*.example.com/*", "https://dicoding.com/*"],
+      "matches": ["https://dicoding.com/*"],
       "js": ["content/content.js"]
     }
   ],
