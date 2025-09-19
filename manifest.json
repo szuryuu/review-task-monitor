@@ -24,11 +24,12 @@
     "alarms",
     "scripting"
   ],
-  "host_permissions": ["https://dicoding.com/*"],
+  "host_permissions": ["https://*.dicoding.com/*"],
   "content_scripts": [
     {
-      "matches": ["https://dicoding.com/*"],
-      "js": ["content/content.js"]
+      "matches": ["https://*.dicoding.com/*"],
+      "js": ["content/content.js"],
+      "run_at": "document_end"
     }
   ],
   "background": {

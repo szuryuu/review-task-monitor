@@ -8,22 +8,37 @@ document.addEventListener("DOMContentLoaded", () => {
   const currentYear = new Date().getFullYear();
   currentYearElement.textContent = currentYear;
 
-  chrome.runtime.sendMessage({ type: "POPUP_OPENED" });
+  console.log("Popup DOM loaded, requesting initial data");
+
+  // Request initial data from background
+  chrome.runtime.sendMessage({ type: "POPUP_OPENED" }, (response) => {
+    if (response && response.type === "INITIAL_DATA") {
+      console.log("Received initial data:", response);
+      updateTable(response.payload);
+    }
+  });
 });
+
+function updateTable(data) {
+  console.log("Updating table with data:", data);
+
+  myTableHeader.innerHTML = data.thead || "<tr><th>No Header Data</th></tr>";
+  myTableBody.innerHTML = data.tbody || "<tr><td>No Body Data</td></tr>";
+}
 
 function notification() {
   const audio = new Audio("../assets/sound/alert1.mp3");
-  audio.play();
+  audio.play().catch((error) => {
+    console.log("Audio playback failed:", error);
+  });
 }
 
 // Listener
 chrome.runtime.onMessage.addListener((msg, sender) => {
-  console.log(msg);
+  console.log("Popup received message:", msg);
+
   if (msg.type === "DOM_UPDATE") {
-    myTableHeader.innerHTML =
-      msg.payload.thead || "<thead><tr><th>404 Not Found</th></tr></thead>";
-    myTableBody.innerHTML =
-      msg.payload.tbody || "<tbody><tr><td>404 Not Found</td></tr></tbody>";
+    updateTable(msg.payload);
 
     if (msg.payload.tbody) {
       notification();
